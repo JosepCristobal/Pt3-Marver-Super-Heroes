@@ -40,7 +40,10 @@ class HeroesListAdapter(val clickListener: Click):  RecyclerView.Adapter<HeroesL
     }
 
     override fun getItemCount() = data.size
-
+    fun submitList(items: List<MarvelHeroEntity>) {
+        this.data.addAll(items)
+        notifyDataSetChanged()
+    }
     override fun onBindViewHolder(holder: HeroesViewHolder, position: Int) = holder.bind(data[position])
 
     fun swapData(data: List<MarvelHeroEntity>) {
