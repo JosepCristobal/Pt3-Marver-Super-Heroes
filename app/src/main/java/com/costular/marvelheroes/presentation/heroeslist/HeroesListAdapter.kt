@@ -75,7 +75,7 @@ class HeroesListAdapter(val clickListener: Click):  RecyclerView.Adapter<HeroesL
                         })
                         .into(heroImage)
 
-                heroTitle.text = item.name
+                heroTitle.text = item.name + " " + item.favourite
                 setOnClickListener { clickListener(item, heroImage) }
             }
         }
