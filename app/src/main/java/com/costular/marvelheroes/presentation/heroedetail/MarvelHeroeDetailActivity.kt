@@ -5,12 +5,16 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.app.AppCompatDelegate
 import android.view.MenuItem
+import android.widget.Button
+import android.widget.EditText
+import android.widget.Toast
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.DataSource
 import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.costular.marvelheroes.R
+import com.costular.marvelheroes.data.repository.datasource.LocalDataSource
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
 import kotlinx.android.synthetic.main.activity_hero_detail.*
 
@@ -34,9 +38,33 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
 
         val hero: MarvelHeroEntity? = intent?.extras?.getParcelable(PARAM_HEROE)
         hero?.let { fillHeroData(it) }
+
+        val btnShow = findViewById<Button>(R.id.btnSave)
+        btnShow?.setOnClickListener {showText()}
+
     }
 
-    private fun fillHeroData(hero: MarvelHeroEntity) {
+/*private fun saveReg(hero: MarvelHeroEntity){
+    val tabla :LocalDataSource
+    val mTabla = tabla.saveHeroes(listOf(hero))
+    }*/
+
+
+private fun showText() {
+    val editText = findViewById<EditText>(R.id.heroEditText).text
+    if (editText != null) {
+
+        Toast.makeText(this, "${editText}, SAVE!!", Toast.LENGTH_LONG).show()
+
+        onBackPressed()
+    }
+}
+
+
+
+
+
+private fun fillHeroData(hero: MarvelHeroEntity) {
         Glide.with(this)
                 .load(hero.photoUrl)
                 .listener(object : RequestListener<Drawable> {
@@ -57,6 +85,7 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         heroDetailHeight.text = hero.height
         heroDetailPower.text = hero.power
         heroDetailAbilities.text = hero.abilities
+        heroEditText.setText(hero.favourite)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
