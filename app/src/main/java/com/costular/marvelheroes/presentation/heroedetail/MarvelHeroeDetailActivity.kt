@@ -1,5 +1,7 @@
 package com.costular.marvelheroes.presentation.heroedetail
 
+import android.arch.lifecycle.ViewModelProvider
+import android.arch.lifecycle.ViewModelProviders
 import android.graphics.drawable.Drawable
 import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
@@ -14,20 +16,29 @@ import com.bumptech.glide.load.engine.GlideException
 import com.bumptech.glide.request.RequestListener
 import com.bumptech.glide.request.target.Target
 import com.costular.marvelheroes.R
+import com.costular.marvelheroes.data.model.MarvelHero
 import com.costular.marvelheroes.data.repository.datasource.LocalDataSource
 import com.costular.marvelheroes.domain.model.MarvelHeroEntity
+import com.costular.marvelheroes.presentation.MainApp
 import kotlinx.android.synthetic.main.activity_hero_detail.*
+import javax.inject.Inject
 
 /**
  * Created by costular on 18/03/2018.
  */
 class MarvelHeroeDetailActivity : AppCompatActivity() {
+    @Inject
+    lateinit var viewModelFactory: ViewModelProvider.Factory
+
+    lateinit var marvelHeroeDetailViewModel: MarvelHeroeDetailViewModel
 
     companion object {
         const val PARAM_HEROE = "heroe"
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        inject()
+        marvelHeroeDetailViewModel = ViewModelProviders.of(this, viewModelFactory).get(MarvelHeroeDetailViewModel::class.java)
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_hero_detail)
         supportActionBar?.apply {
@@ -36,19 +47,36 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         }
         supportPostponeEnterTransition() // Wait for image load and then draw the animation
 
+
+
         val hero: MarvelHeroEntity? = intent?.extras?.getParcelable(PARAM_HEROE)
         hero?.let { fillHeroData(it) }
 
         val btnShow = findViewById<Button>(R.id.btnSave)
-        btnShow?.setOnClickListener {showText()}
+        btnShow?.setOnClickListener {
+
+            if (hero!=null) {saveReg(hero, hero.id)
+                showText()
+            }}
+
+
+    }
+    fun inject() {
+        (application as MainApp).component.injectDetail(this)
 
     }
 
-/*private fun saveReg(hero: MarvelHeroEntity){
-    val tabla :LocalDataSource
-    val mTabla = tabla.saveHeroes(listOf(hero))
-    }*/
 
+private fun saveReg(hero: MarvelHeroEntity, userId: Int){
+    val editText = findViewById<EditText>(R.id.heroEditText).text.toString()
+    val hero4: List<MarvelHeroEntity> = listOf(
+            MarvelHeroEntity(hero.id, hero.name, hero.photoUrl,hero.realName,hero.height,hero.power,hero.abilities,editText,hero.groups))
+
+    marvelHeroeDetailViewModel.deleteHeroes(userId)
+
+    marvelHeroeDetailViewModel.updateHeroe(hero4)
+
+}
 
 private fun showText() {
     val editText = findViewById<EditText>(R.id.heroEditText).text
@@ -86,6 +114,8 @@ private fun fillHeroData(hero: MarvelHeroEntity) {
         heroDetailPower.text = hero.power
         heroDetailAbilities.text = hero.abilities
         heroEditText.setText(hero.favourite)
+
+
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {

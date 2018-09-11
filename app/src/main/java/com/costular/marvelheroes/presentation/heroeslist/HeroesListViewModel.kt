@@ -38,4 +38,5 @@ class HeroesListViewModel @Inject constructor(val marvelHeroesRepositoryImpl: Ma
                 .addTo(compositeDisposable)
     }
 
+
 }

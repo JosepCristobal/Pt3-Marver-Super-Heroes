@@ -33,4 +33,20 @@ class MarvelHeroesRepositoryImpl(private val remoteMarvelHeroesDataSource: Remot
 
     }
 
+    override fun saveHeroes(users: List<MarvelHeroEntity>) {
+            localDataSource
+                    .saveHeroes(users)
+    }
+
+    override fun updateHeroes(users: List<MarvelHeroEntity>) {
+            localDataSource
+                    .updateHeroes(users)
+            }
+
+    override fun deleteHeroes(userId: Int) {
+        localDataSource
+                .deleteHeroes(userId)
+    }
+
+
 }

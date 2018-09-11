@@ -14,13 +14,14 @@ import io.reactivex.schedulers.Schedulers
 class LocalDataSource (val marvelHeroDatabase: MarvelHeroDatabase
                          ): MarvelHeroesRepository {
 
-   override fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>> =
+
+    override fun getMarvelHeroesList(): Observable<List<MarvelHeroEntity>> =
                     marvelHeroDatabase
                             .getMarvelHeroDao()
                             .getAllUsers()
                             .toObservable()
 
-   fun saveHeroes(users: List<MarvelHeroEntity>) {
+   override fun saveHeroes(users: List<MarvelHeroEntity>) {
       Observable.fromCallable {
          marvelHeroDatabase.getMarvelHeroDao().removeAndInsertUsers(users)
       }
@@ -34,5 +35,18 @@ class LocalDataSource (val marvelHeroDatabase: MarvelHeroDatabase
                 .deleteAllUsers()
     }
 
+    override fun updateHeroes(users: List<MarvelHeroEntity>) {
+        Observable.fromCallable {
+            marvelHeroDatabase.getMarvelHeroDao().insertAll(users)
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()    }
+
+    override fun deleteHeroes(userId: Int) {
+        Observable.fromCallable {
+            marvelHeroDatabase.getMarvelHeroDao().deleteUser(userId)
+        }
+                .subscribeOn(Schedulers.io())
+                .subscribe()    }
 
 }
