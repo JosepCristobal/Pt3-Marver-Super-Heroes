@@ -18,13 +18,23 @@ abstract class MarvelHeroDao{
     @Query("DELETE FROM marvelhero")
     abstract fun deleteAllUsers()
 
-    @Query("DELETE FROM marvelhero WHERE id = :userId")
-    abstract fun deleteUser(userId: Int)
+    @Query("DELETE FROM marvelhero WHERE name = :userId")
+    abstract fun deleteUser(userId: String)
 
     @Transaction
     open fun removeAndInsertUsers(users: List<MarvelHeroEntity>) {
         deleteAllUsers()
         insertAll(users)
     }
+    @Transaction
+    open fun updateUser(users: List<MarvelHeroEntity>) {
+        if (users.toList().size == 1) {
+            val idHero = users.get(0).name
+            deleteUser(idHero)
+            insertAll(users)
+        }
+    }
+
+
 
 }

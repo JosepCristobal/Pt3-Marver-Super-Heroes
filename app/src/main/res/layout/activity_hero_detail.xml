@@ -54,13 +54,20 @@
         style="@style/HeroDetailAbilities"
         tools:text="Tony has a genius level intellect that allows him to invent a wide range of sophisticated devices, specializing in advanced weapons and armor. He possesses a keen business mind." />
 
+    <TextView
+        android:id="@+id/heroFavourite"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/HeroDetailAbilities"
+        tools:text="Comentarios para los favoritos" />
+
     <EditText
         android:id="@+id/heroEditText"
         style="@style/HeroDetailPower"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:editable="true"
-        android:padding="5dp" />
+        android:padding="5dp"
+        tools:text="Comentarios para los favoritos"/>
 
     <Button
         android:id="@+id/btnSave"

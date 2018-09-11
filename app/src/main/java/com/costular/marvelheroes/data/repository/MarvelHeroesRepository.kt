@@ -16,5 +16,5 @@ interface MarvelHeroesRepository {
 
     fun updateHeroes(users: List<MarvelHeroEntity>)
 
-    fun deleteHeroes(userId: Int)
+    fun deleteHeroes(userId: String)
 }

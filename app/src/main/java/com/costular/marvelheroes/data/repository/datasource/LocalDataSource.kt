@@ -37,12 +37,12 @@ class LocalDataSource (val marvelHeroDatabase: MarvelHeroDatabase
 
     override fun updateHeroes(users: List<MarvelHeroEntity>) {
         Observable.fromCallable {
-            marvelHeroDatabase.getMarvelHeroDao().insertAll(users)
+            marvelHeroDatabase.getMarvelHeroDao().updateUser(users)
         }
                 .subscribeOn(Schedulers.io())
                 .subscribe()    }
 
-    override fun deleteHeroes(userId: Int) {
+    override fun deleteHeroes(userId: String) {
         Observable.fromCallable {
             marvelHeroDatabase.getMarvelHeroDao().deleteUser(userId)
         }

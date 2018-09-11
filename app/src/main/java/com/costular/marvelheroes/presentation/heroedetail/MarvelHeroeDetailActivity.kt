@@ -55,7 +55,7 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
         val btnShow = findViewById<Button>(R.id.btnSave)
         btnShow?.setOnClickListener {
 
-            if (hero!=null) {saveReg(hero, hero.id)
+            if (hero!=null) {saveReg(hero)
                 showText()
             }}
 
@@ -67,12 +67,12 @@ class MarvelHeroeDetailActivity : AppCompatActivity() {
     }
 
 
-private fun saveReg(hero: MarvelHeroEntity, userId: Int){
+private fun saveReg(hero: MarvelHeroEntity){
     val editText = findViewById<EditText>(R.id.heroEditText).text.toString()
     val hero4: List<MarvelHeroEntity> = listOf(
             MarvelHeroEntity(hero.id, hero.name, hero.photoUrl,hero.realName,hero.height,hero.power,hero.abilities,editText,hero.groups))
 
-    marvelHeroeDetailViewModel.deleteHeroes(userId)
+    //marvelHeroeDetailViewModel.deleteHeroes(userId)
 
     marvelHeroeDetailViewModel.updateHeroe(hero4)
 
@@ -113,7 +113,8 @@ private fun fillHeroData(hero: MarvelHeroEntity) {
         heroDetailHeight.text = hero.height
         heroDetailPower.text = hero.power
         heroDetailAbilities.text = hero.abilities
-        heroEditText.setText(hero.favourite)
+        heroFavourite.text=hero.favourite
+
 
 
     }

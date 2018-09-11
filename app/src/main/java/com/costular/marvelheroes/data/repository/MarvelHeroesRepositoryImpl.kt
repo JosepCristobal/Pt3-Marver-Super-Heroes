@@ -43,7 +43,7 @@ class MarvelHeroesRepositoryImpl(private val remoteMarvelHeroesDataSource: Remot
                     .updateHeroes(users)
             }
 
-    override fun deleteHeroes(userId: Int) {
+    override fun deleteHeroes(userId: String) {
         localDataSource
                 .deleteHeroes(userId)
     }

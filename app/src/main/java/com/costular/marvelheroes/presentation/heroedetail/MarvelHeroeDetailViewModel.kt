@@ -13,7 +13,7 @@ class MarvelHeroeDetailViewModel @Inject constructor(val marvelHeroesRepositoryI
 
     }
 
-    fun deleteHeroes(userId: Int){
+    fun deleteHeroes(userId: String){
         marvelHeroesRepositoryImpl.deleteHeroes(userId)
 
     }
